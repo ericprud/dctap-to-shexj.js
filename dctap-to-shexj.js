@@ -24,16 +24,15 @@ function dctapToShExJ (dctap, base) {
   let curShape = null
   let conjuncts = null
   dctap.forEach( (row) => {
+
     // bom:false doesn't seem to work so strip BOM from all keys:
     Object.keys(row).forEach(key => {
       if (key.startsWith("\ufeff")) {
         const newKey = key.substr(1)
         row[newKey] = row[key]
         delete row[key]
-        console.warn(key)
       }
     })
-
     // or maybe it's just the first column:
     // if ("\ufeffshapeID" in row) {
     //   row.shapeID = row["\ufeffshapeID"]
