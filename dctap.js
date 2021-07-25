@@ -53,6 +53,8 @@ class DcTap {
         expression: maybeAnd(sh.tripleConstraints.map(tc => ({
           type: "TripleConstraint",
           predicate: tc.propertyID,
+          min: tc.mandatory ? 1 : undefined,
+          max: tc.repeatable ? -1 : undefined,
           valueExpr: shexValueExpr(tc),
         })), "EachOf", "expressions")
       }))
@@ -73,6 +75,8 @@ function shexValueExpr (tc) {
 function toTC (sc, base) {
   return {
     propertyID: sc.propertyID,
+    mandatory: !!sc.mandatory || undefined,
+    repeatable: !!sc.repeatable || undefined,
     valueConstraint: parseValueConstraint(sc, base),
     valueShape: sc.valueShape ? new URL(sc.valueShape, base).href : undefined,
   }
