@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "dctap-to-shexj.js",
+  "bin": {
+    "dctap-to-shexj": "bin/dctap-to-shexj-cli"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

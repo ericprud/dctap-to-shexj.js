@@ -1,21 +1,20 @@
 "use strict"
 
 const Csv = require('csv-parser')
-const Fs = require('fs')
-const { Readable } = require("stream")
+const { Readable } = require('stream')
 
-parseCSV(process.argv[2])
-
-function parseCSV (file) {
-
-  const dctap = []
-  Fs.createReadStream(file)
-    .pipe(Csv(), {bom: false})
-    .on('data', (data) => dctap.push(data))
-    .on('end', () => {
-      const schema = dctapToShExJ(dctap, new URL('http://a.example/ns/toy'))
-      console.log(JSON.stringify(schema, null, 2))
-    })
+async function DcTapToShExJ (csvText, base) {
+  return await new Promise((resolve, reject) => {
+    const dctap = []
+    Readable.from(csvText)
+      .pipe(Csv(), {bom: false})
+      .on('data', (data) => dctap.push(data))
+      .on('end', () => {
+        const schema = dctapToShExJ(dctap, base)
+        resolve(schema)
+      })
+      // .on('error', (e) => reject(e))
+  })
 }
 
 function dctapToShExJ (dctap, base) {
@@ -161,3 +160,5 @@ function dctapToShExJ (dctap, base) {
   }
 
 }
+
+module.exports = { DcTapToShExJ }
