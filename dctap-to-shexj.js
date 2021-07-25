@@ -2,12 +2,14 @@
 
 const Csv = require('csv-parser')
 const { Readable } = require('stream')
+const StripBom = require('strip-bom-stream')
 
 async function DcTapToShExJ (csvText, base) {
   return await new Promise((resolve, reject) => {
     const dctap = []
     Readable.from(csvText)
-      .pipe(Csv(), {bom: false})
+      .pipe(StripBom())
+      .pipe(Csv())
       .on('data', (data) => dctap.push(data))
       .on('end', () => {
         const schema = dctapToShExJ(dctap, base)
@@ -23,21 +25,6 @@ function dctapToShExJ (dctap, base) {
   let curShape = null
   let conjuncts = null
   dctap.forEach( (row) => {
-
-    // bom:false doesn't seem to work so strip BOM from all keys:
-    Object.keys(row).forEach(key => {
-      if (key.startsWith("\ufeff")) {
-        const newKey = key.substr(1)
-        row[newKey] = row[key]
-        delete row[key]
-      }
-    })
-    // or maybe it's just the first column:
-    // if ("\ufeffshapeID" in row) {
-    //   row.shapeID = row["\ufeffshapeID"]
-    //   delete row["\ufeffshapeID"]
-    // }
-
     row.valueNodeType = row.valueNodeType.toLowerCase()
     row.valueConstraintType = row.valueConstraintType.toLowerCase()
 
