@@ -1,13 +1,14 @@
 {
-  "name": "csv-parser-user",
-  "version": "1.0.0",
+  "name": "dctap",
+  "version": "0.0.1",
   "description": "",
-  "main": "dctap-to-shexj.js",
+  "main": "dctap.js",
   "bin": {
+    "dctap-to-json": "bin/dctap-to-json-cli",
     "dctap-to-shexj": "bin/dctap-to-shexj-cli"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./bin/dctap-to-json-cli.js examples/allFeatures.csv && ./bin/dctap-to-shexj-cli.js examples/allFeatures.csv"
   },
   "keywords": [],
   "author": "",

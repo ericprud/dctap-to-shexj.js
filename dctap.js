@@ -4,86 +4,97 @@ const Csv = require('csv-parser')
 const { Readable } = require('stream')
 const StripBom = require('strip-bom-stream')
 
-async function DcTapToShExJ (csvText, base) {
-  return await new Promise((resolve, reject) => {
-    const dctap = []
-    Readable.from(csvText)
-      .pipe(StripBom())
-      .pipe(Csv())
-      .on('data', (data) => dctap.push(data))
-      .on('end', () => {
-        const schema = dctapToShExJ(dctap, base)
-        resolve(schema)
-      })
+class DcTap {
+
+  shapes = []
+  curShape = null
+  conjuncts = null
+
+  async parse (csvText, base) {
+    return await new Promise((resolve, reject) => {
+      Readable.from(csvText)
+        .pipe(StripBom())
+        .pipe(Csv())
+        .on('data', (data) => this.parseRow(data, base))
+        .on('end', () => {
+          resolve(this)
+        })
       // .on('error', (e) => reject(e))
-  })
-}
+    })
+  }
 
-function dctapToShExJ (dctap, base) {
-
-  const schema = { type: "Schema", shapes: [] }
-  let curShape = null
-  let conjuncts = null
-  dctap.forEach( (row) => {
+  parseRow (row, base) {
     row.valueNodeType = row.valueNodeType.toLowerCase()
     row.valueConstraintType = row.valueConstraintType.toLowerCase()
 
     if (row.shapeID) {
-      if (curShape) {
-        curShape.expression = maybeAnd(conjuncts, "EachOf", "expressions")
-      }
-      conjuncts = []
-      curShape = {
+      this.curShape = {
         type: "Shape",
-        id: new URL(row.shapeID, base).href,
+        shapeID: new URL(row.shapeID, base).href,
+        tripleConstraints: [],
       }
-      schema.shapes.push(curShape)
-    } else if (!curShape) {
+      this.shapes.push(this.curShape)
+    } else if (!this.curShape) {
       throw new Error(`no current shape into which to add ${JSON.stringify(row)}`)
     }
-    conjuncts.push(toTC(row, base))
-  })
-  if (curShape) {
-    curShape.expression = maybeAnd(conjuncts, "EachOf", "expressions")
+    this.curShape.tripleConstraints.push(toTC(row, base))
   }
-  return schema
+
+  toJson () {
+    return this.shapes
+  }
+
+  toShExJ () {
+    const schema = {
+      type: "Schema",
+      shapes: this.shapes.map(sh => ({
+        type: "Shape",
+        id: sh.shapeID,
+        expression: maybeAnd(sh.tripleConstraints.map(tc => ({
+          type: "TripleConstraint",
+          predicate: tc.propertyID,
+          valueExpr: shexValueExpr(tc),
+        })), "EachOf", "expressions")
+      }))
+    }
+    return schema
+  }
 }
 
+function shexValueExpr (tc) {
+  const valueExprs = []
+  if (tc.valueConstraint)
+    valueExprs.push(Object.assign({type: "NodeConstraint"}, tc.valueConstraint))
+  if (tc.valueShape)
+    valueExprs.push(tc.valueShape)
+  return maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
+}
 
 function toTC (sc, base) {
   return {
-    type: "TripleConstraint",
-    predicate: sc.propertyID,
-    valueExpr: parseExpr(sc, base)
+    propertyID: sc.propertyID,
+    valueConstraint: parseValueConstraint(sc, base),
+    valueShape: sc.valueShape ? new URL(sc.valueShape, base).href : undefined,
   }
 }
 
-function parseExpr (sc, base) {
-  const valueExprs = []
-
+function parseValueConstraint (sc, base) {
   switch (sc.valueConstraintType) {
   case "iristem":
   case "picklist":
   case "languagetag":
     const values = sc.valueConstraint.split(/\s+/)
-    valueExprs.push({
-      type: "NodeConstraint",
+    return {
       values: values.map(v => coerseV(v, sc, sc.valueConstraintType.endsWith('stem')))
-    })
-    break
+    }
   case "pattern":
-    valueExprs.push({
-      type: "NodeConstraint",
+    return {
       pattern: sc.valueConstraint
-    })
-    break
+    }
   case "":
-    break
+    return undefined
   default: throw Error(`What's a valueConstraintType ${sc.valueConstraintType} in ${JSON.stringify(sc, null, 2)}?`)
   }
-  if (sc.valueShape)
-    valueExprs.push(new URL(sc.valueShape, base).href)
-  return maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
 }
 
 function coerseV (v, sc, isStem = false) {
@@ -133,4 +144,4 @@ function maybeAnd (conjuncts, type, property) {
   return ret
 }
 
-module.exports = { DcTapToShExJ }
+module.exports = { DcTap }

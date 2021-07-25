@@ -7,6 +7,5 @@ const { DcTap } = require('../dctap');
   const text = Fs.readFileSync(process.argv[2])
   const dctap = new DcTap()
   await dctap.parse(text, new URL('file://' + __dirname))
-  const schema = dctap.toShExJ()
-  console.log(JSON.stringify(schema, null, 2))
+  console.log(JSON.stringify(dctap.toJson(), null, 2))
 })()
