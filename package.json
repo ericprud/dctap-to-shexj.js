@@ -1,11 +1,11 @@
 {
   "name": "dctap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dctap.js",
   "bin": {
-    "dctap-to-json": "bin/dctap-to-json-cli",
-    "dctap-to-shexj": "bin/dctap-to-shexj-cli"
+    "dctap-to-json": "bin/dctap-to-json-cli.js",
+    "dctap-to-shexj": "bin/dctap-to-shexj-cli.js"
   },
   "scripts": {
     "test": "./bin/dctap-to-json-cli.js examples/allFeatures.csv && ./bin/dctap-to-shexj-cli.js examples/allFeatures.csv"

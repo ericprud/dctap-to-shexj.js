@@ -29,14 +29,16 @@ Parse text using a specified URL for relative URL resolution
 await dctap.parse(text, new URL('file://' + __dirname));
 ```
 
-Emit as JSON
+Emit as Javascript object
 ``` javascript
-console.log(JSON.stringify(dctap.toJson(), null, 2));
+const obj = dctap.toJson();
+console.log(JSON.stringify(obj, null, 2));
 ```
 
-Emit as ShExJ
+Emit as ShEx Javascript object
 ``` javascript
-console.log(JSON.stringify(dctap.toShExJ(), null, 2));
+const schema = dctap.toShEx();
+console.log(JSON.stringify(schema, null, 2));
 ```
 
 ## complete example

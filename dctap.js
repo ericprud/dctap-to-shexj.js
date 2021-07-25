@@ -44,7 +44,7 @@ class DcTap {
     return this.shapes
   }
 
-  toShExJ () {
+  toShEx () {
     const schema = {
       type: "Schema",
       shapes: this.shapes.map(sh => ({
