@@ -14,14 +14,12 @@
       },
       {
         "propertyID": "dct:subject",
-        "valueConstraint": {
-          "values": [
-            {
-              "type": "IriStem",
-              "stem": "https://id.loc.gov"
-            }
-          ]
-        }
+        "values": [
+          {
+            "type": "IriStem",
+            "stem": "https://id.loc.gov"
+          }
+        ]
       },
       {
         "propertyID": ":status"
@@ -30,35 +28,31 @@
         "propertyID": ":description",
         "mandatory": true,
         "repeatable": true,
-        "valueConstraint": {
-          "values": [
-            {
-              "type": "Language",
-              "languageTag": "fr"
-            },
-            {
-              "type": "Language",
-              "languageTag": "it"
-            },
-            {
-              "type": "Language",
-              "languageTag": "en"
-            }
-          ]
-        }
+        "values": [
+          {
+            "type": "Language",
+            "languageTag": "fr"
+          },
+          {
+            "type": "Language",
+            "languageTag": "it"
+          },
+          {
+            "type": "Language",
+            "languageTag": "en"
+          }
+        ]
       },
       {
         "propertyID": ":colors",
-        "valueConstraint": {
-          "values": [
-            {
-              "value": "blue"
-            },
-            {
-              "value": "green"
-            }
-          ]
-        }
+        "values": [
+          {
+            "value": "blue"
+          },
+          {
+            "value": "green"
+          }
+        ]
       }
     ]
   },
@@ -68,9 +62,7 @@
     "tripleConstraints": [
       {
         "propertyID": ":status",
-        "valueConstraint": {
-          "pattern": "confidential-*"
-        }
+        "pattern": "confidential-*"
       }
     ]
   }

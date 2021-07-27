@@ -68,8 +68,16 @@ class DcTap {
 
 function shexValueExpr (tc) {
   const valueExprs = []
-  if (tc.valueConstraint)
-    valueExprs.push(Object.assign({type: "NodeConstraint"}, tc.valueConstraint))
+  if (tc.values)
+    valueExprs.push({
+      type: "NodeConstraint",
+      values: tc.values
+    })
+  if (tc.pattern)
+    valueExprs.push({
+      type: "NodeConstraint",
+      pattern: tc.pattern
+    })
   if (tc.valueShape)
     valueExprs.push(tc.valueShape)
   const valueExpr = maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
@@ -94,13 +102,13 @@ function parseValueConstraint (sc, base) {
   case "picklist":
   case "languagetag":
     const values = sc.valueConstraint.split(/\s+/)
-    return { valueConstraint: {
+    return {
       values: values.map(v => coerseV(v, sc, sc.valueConstraintType.endsWith('stem')))
-    } }
+    }
   case "pattern":
-    return { valueConstraint: {
+    return {
       pattern: sc.valueConstraint
-    } }
+    }
   case "":
     return {} // no valueConstraint property
   default: throw Error(`What's a valueConstraintType ${sc.valueConstraintType} in ${JSON.stringify(sc, null, 2)}?`)
