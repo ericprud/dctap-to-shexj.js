@@ -51,13 +51,15 @@ class DcTap {
       shapes: this.shapes.map(sh => ({
         type: "Shape",
         id: sh.shapeID,
-        expression: maybeAnd(sh.tripleConstraints.map(tc => ({
-          type: "TripleConstraint",
-          predicate: tc.propertyID,
-          min: tc.mandatory ? 1 : undefined,
-          max: tc.repeatable ? -1 : undefined,
-          valueExpr: shexValueExpr(tc),
-        })), "EachOf", "expressions")
+        expression: maybeAnd(sh.tripleConstraints.map(tc => Object.assign(
+          {
+            type: "TripleConstraint",
+            predicate: tc.propertyID,
+          },
+          tc.mandatory ? { min: 1 } : {},
+          tc.repeatable ? { max: -1 } : {},
+          shexValueExpr(tc),
+        )), "EachOf", "expressions")
       }))
     }
     return schema
@@ -70,17 +72,20 @@ function shexValueExpr (tc) {
     valueExprs.push(Object.assign({type: "NodeConstraint"}, tc.valueConstraint))
   if (tc.valueShape)
     valueExprs.push(tc.valueShape)
-  return maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
+  const valueExpr = maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
+  return valueExpr ? { valueExpr } : {}
 }
 
 function toTC (sc, base) {
-  return {
-    propertyID: sc.propertyID,
-    mandatory: !!sc.mandatory || undefined,
-    repeatable: !!sc.repeatable || undefined,
-    valueConstraint: parseValueConstraint(sc, base),
-    valueShape: sc.valueShape ? new URL(sc.valueShape, base).href : undefined,
-  }
+  return Object.assign(
+    {
+      propertyID: sc.propertyID,
+    },
+    sc.mandatory ? { mandatory: true } : {},
+    sc.repeatable ? { repeatable: true } : {},
+    parseValueConstraint(sc, base),
+    sc.valueShape ? { valueShape: new URL(sc.valueShape, base).href } : {},
+  )
 }
 
 function parseValueConstraint (sc, base) {
@@ -89,15 +94,15 @@ function parseValueConstraint (sc, base) {
   case "picklist":
   case "languagetag":
     const values = sc.valueConstraint.split(/\s+/)
-    return {
+    return { valueConstraint: {
       values: values.map(v => coerseV(v, sc, sc.valueConstraintType.endsWith('stem')))
-    }
+    } }
   case "pattern":
-    return {
+    return { valueConstraint: {
       pattern: sc.valueConstraint
-    }
+    } }
   case "":
-    return undefined
+    return {} // no valueConstraint property
   default: throw Error(`What's a valueConstraintType ${sc.valueConstraintType} in ${JSON.stringify(sc, null, 2)}?`)
   }
 }
