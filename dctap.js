@@ -1,26 +1,19 @@
 "use strict"
 
-const Csv = require('csv-parser')
-const { Readable } = require('stream')
-const StripBom = require('strip-bom-stream')
-
 class DcTap {
 
   shapes = []
   curShape = null
   conjuncts = null
+  headers = ["shapeID", "shapeLabel", "propertyID", "propertyLabel", "mandatory", "repeatable", "valueNodeType", "valueDataType", "valueConstraint", "valueConstraintType", "valueShape", "note"]
 
-  async parse (csvText, base) {
-    return await new Promise((resolve, reject) => {
-      Readable.from(csvText)
-        .pipe(StripBom())
-        .pipe(Csv())
-        .on('data', (data) => this.parseRow(data, base))
-        .on('end', () => {
-          resolve(this)
-        })
-      // .on('error', (e) => reject(e))
-    })
+  parseRows (rows, base) {
+    if (rows[0][0] === this.headers[0]
+        && rows[0][0] === this.headers[0]
+        && rows[0][0] === this.headers[0])
+      rows.shift() // skip apparent header row
+    rows.forEach((row) => parseRow(row, base))
+    return this
   }
 
   parseRow (row, base) {
@@ -38,6 +31,7 @@ class DcTap {
       throw new Error(`no current shape into which to add ${JSON.stringify(row)}`)
     }
     this.curShape.tripleConstraints.push(toTC(row, base))
+    return this
   }
 
   toJson () {

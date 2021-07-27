@@ -8,13 +8,18 @@
     "dctap-to-shexj": "bin/dctap-to-shexj-cli.js"
   },
   "scripts": {
-    "test": "./bin/dctap-to-json-cli.js examples/allFeatures.csv && ./bin/dctap-to-shexj-cli.js examples/allFeatures.csv"
+    "test": "jest",
+    "test0": "./bin/dctap-to-json-cli.js examples/allFeatures.csv && ./bin/dctap-to-shexj-cli.js examples/allFeatures.csv && jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+  },
+  "devDependencies": {
     "csv-parser": "^3.0.0",
+    "jest": "^27.0.6",
+    "jquery-csv": "^1.0.21",
     "strip-bom-stream": "^4.0.0"
   }
 }
