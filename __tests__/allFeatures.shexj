@@ -1,0 +1,92 @@
+{
+  "type": "Schema",
+  "shapes": [
+    {
+      "type": "Shape",
+      "id": "http://a.example/test/dir/:book",
+      "expression": {
+        "type": "EachOf",
+        "expressions": [
+          {
+            "type": "TripleConstraint",
+            "predicate": "dct:creator",
+            "min": 1,
+            "max": -1,
+            "valueExpr": "http://a.example/test/dir/:author"
+          },
+          {
+            "type": "TripleConstraint",
+            "predicate": "dct:date"
+          },
+          {
+            "type": "TripleConstraint",
+            "predicate": "dct:subject",
+            "valueExpr": {
+              "type": "NodeConstraint",
+              "values": [
+                {
+                  "type": "IriStem",
+                  "stem": "https://id.loc.gov"
+                }
+              ]
+            }
+          },
+          {
+            "type": "TripleConstraint",
+            "predicate": ":status"
+          },
+          {
+            "type": "TripleConstraint",
+            "predicate": ":description",
+            "min": 1,
+            "max": -1,
+            "valueExpr": {
+              "type": "NodeConstraint",
+              "values": [
+                {
+                  "type": "Language",
+                  "languageTag": "fr"
+                },
+                {
+                  "type": "Language",
+                  "languageTag": "it"
+                },
+                {
+                  "type": "Language",
+                  "languageTag": "en"
+                }
+              ]
+            }
+          },
+          {
+            "type": "TripleConstraint",
+            "predicate": ":colors",
+            "valueExpr": {
+              "type": "NodeConstraint",
+              "values": [
+                {
+                  "value": "blue"
+                },
+                {
+                  "value": "green"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Shape",
+      "id": "http://a.example/test/dir/:author",
+      "expression": {
+        "type": "TripleConstraint",
+        "predicate": ":status",
+        "valueExpr": {
+          "type": "NodeConstraint",
+          "pattern": "confidential-*"
+        }
+      }
+    }
+  ]
+}

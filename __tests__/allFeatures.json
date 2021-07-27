@@ -1,0 +1,77 @@
+[
+  {
+    "type": "Shape",
+    "shapeID": "http://a.example/test/dir/:book",
+    "tripleConstraints": [
+      {
+        "propertyID": "dct:creator",
+        "mandatory": true,
+        "repeatable": true,
+        "valueShape": "http://a.example/test/dir/:author"
+      },
+      {
+        "propertyID": "dct:date"
+      },
+      {
+        "propertyID": "dct:subject",
+        "valueConstraint": {
+          "values": [
+            {
+              "type": "IriStem",
+              "stem": "https://id.loc.gov"
+            }
+          ]
+        }
+      },
+      {
+        "propertyID": ":status"
+      },
+      {
+        "propertyID": ":description",
+        "mandatory": true,
+        "repeatable": true,
+        "valueConstraint": {
+          "values": [
+            {
+              "type": "Language",
+              "languageTag": "fr"
+            },
+            {
+              "type": "Language",
+              "languageTag": "it"
+            },
+            {
+              "type": "Language",
+              "languageTag": "en"
+            }
+          ]
+        }
+      },
+      {
+        "propertyID": ":colors",
+        "valueConstraint": {
+          "values": [
+            {
+              "value": "blue"
+            },
+            {
+              "value": "green"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "Shape",
+    "shapeID": "http://a.example/test/dir/:author",
+    "tripleConstraints": [
+      {
+        "propertyID": ":status",
+        "valueConstraint": {
+          "pattern": "confidential-*"
+        }
+      }
+    ]
+  }
+]
