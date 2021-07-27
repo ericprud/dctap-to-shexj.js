@@ -12,11 +12,18 @@ class DcTap {
         && rows[0][0] === this.headers[0]
         && rows[0][0] === this.headers[0])
       rows.shift() // skip apparent header row
-    rows.forEach((row) => parseRow(row, base))
+    rows.forEach((row) => this.parseRow(row, base))
     return this
   }
 
   parseRow (row, base) {
+    if (Array.isArray(row)) {
+      row = this.headers.reduce((acc, header, idx) => {
+        acc[header] = row[idx]
+        return acc
+      }, {})
+    }
+
     row.valueNodeType = row.valueNodeType.toLowerCase()
     row.valueConstraintType = row.valueConstraintType.toLowerCase()
 
