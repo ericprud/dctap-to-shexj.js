@@ -1,0 +1,5 @@
+[
+  { "name": "no shape", "csv": "noShape.csv", "error": "^no current shape into which to add" },
+  { "name": "unknown valueConstraint", "csv": "unknownValueConstraint.csv", "error": "^Unknown valueConstraintType picklist999 in" },
+  { "name": "unknown valueNodeType", "csv": "unknownValueNodeType.csv", "error": "^Unknown valueNodeType literal999 in" }
+]

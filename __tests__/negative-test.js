@@ -1,6 +1,6 @@
 "use strict"
 
-const MANIFEST_PATH = 'Positive-tests.json'
+const MANIFEST_PATH = 'Negative-tests.json'
 
 const Fs = require('fs')
 const Path = require('path')
@@ -10,17 +10,12 @@ const Base = new URL('http://a.example/test/dir/')
 
 const Manifest = JSON.parse(Fs.readFileSync(Path.join(__dirname, MANIFEST_PATH), 'utf-8'))
 
-describe('jquery-csv interface', () => {
+describe('negative tests', () => {
   Manifest.forEach(entry => {
     it(entry.name + ' JSON', async () => {
-      const dctap = await parseDcTap(Path.join(__dirname, entry.csv), Base)
-      const ref = JSON.parse(Fs.readFileSync(Path.join(__dirname, entry.json), 'utf-8'))
-      expect(dctap.toJson()).toEqual(ref)
-    })
-    it(entry.name + ' ShExJ', async () => {
-      const dctap = await parseDcTap(Path.join(__dirname, entry.csv), Base)
-      const ref = JSON.parse(Fs.readFileSync(Path.join(__dirname, entry.shexj), 'utf-8'))
-      expect(dctap.toShEx()).toEqual(ref)
+      await expect(parseDcTap(Path.join(__dirname, entry.csv), Base))
+        .rejects
+        .toThrow(new RegExp(entry.error));
     })
   })
 })

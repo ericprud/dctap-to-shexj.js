@@ -1,0 +1,2 @@
+﻿shapeID,shapeLabel,propertyID,propertyLabel,mandatory,repeatable,valueNodeType,valueDataType,valueConstraint,valueConstraintType,valueShape,note
+,,dct:creator,Author,1,1,IRI,,,,:author,Writer of the book

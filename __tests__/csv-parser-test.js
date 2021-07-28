@@ -1,6 +1,6 @@
 "use strict"
 
-const MANIFEST_PATH = 'Manifest.json'
+const MANIFEST_PATH = 'Positive-tests.json'
 
 const Fs = require('fs')
 const Path = require('path')

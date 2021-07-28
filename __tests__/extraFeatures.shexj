@@ -41,6 +41,23 @@
           },
           {
             "type": "TripleConstraint",
+            "predicate": ":tag",
+            "valueExpr": {
+              "type": "NodeConstraint",
+              "values": [
+                {
+                  "type": "LiteralStem",
+                  "stem": "user-"
+                },
+                {
+                  "type": "LiteralStem",
+                  "stem": "org-"
+                }
+              ]
+            }
+          },
+          {
+            "type": "TripleConstraint",
             "predicate": ":description",
             "min": 1,
             "max": -1,

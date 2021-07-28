@@ -78,6 +78,11 @@ function shexValueExpr (tc) {
       type: "NodeConstraint",
       pattern: tc.pattern
     })
+  if (tc.datatype)
+    valueExprs.push({
+      type: "NodeConstraint",
+      datatype: tc.datatype
+    })
   if (tc.valueShape)
     valueExprs.push(tc.valueShape)
   const valueExpr = maybeAnd(valueExprs, "ShapeAnd", "shapeExprs")
@@ -99,6 +104,7 @@ function toTC (sc, base) {
 function parseValueConstraint (sc, base) {
   switch (sc.valueConstraintType) {
   case "iristem":
+  case "literalstem":
   case "picklist":
   case "languagetag":
     const values = sc.valueConstraint.split(/\s+/)
@@ -110,8 +116,10 @@ function parseValueConstraint (sc, base) {
       pattern: sc.valueConstraint
     }
   case "":
-    return {} // no valueConstraint property
-  default: throw Error(`What's a valueConstraintType ${sc.valueConstraintType} in ${JSON.stringify(sc, null, 2)}?`)
+    return sc.valueDataType
+      ? { datatype: new URL(sc.valueDataType, base).href }
+      : {} // no valueConstraint property
+  default: throw Error(`Unknown valueConstraintType ${sc.valueConstraintType} in ${JSON.stringify(sc, null, 2)}?`)
   }
 }
 
@@ -127,13 +135,13 @@ function coerseV (v, sc, isStem = false) {
     const ret = isStem
       ? {
         type: "LiteralStem",
-        value: v
+        stem: v
       }
     : {
       value: v
     }
-    if (sc.valueDataType && sc.valueDataType !== "xsd:string")
-      ret.datatype = sc.valueDataType
+    // if (sc.valueDataType && sc.valueDataType !== "xsd:string")
+    //   ret.datatype = sc.valueDataType
     return ret
   case "iri":
     return isStem
@@ -146,7 +154,8 @@ function coerseV (v, sc, isStem = false) {
     return {
       value: v
     }
-  default: throw Error(`What's a valueNodeType=${sc.valueNodeType} in ${JSON.stringify(sc, null, 2)}?`)
+  default:
+    throw Error(`Unknown valueNodeType ${sc.valueNodeType} in ${JSON.stringify(sc, null, 2)}?`)
   }
 }
 

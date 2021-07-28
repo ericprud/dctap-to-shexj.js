@@ -1,0 +1,4 @@
+[
+  { "name": "allFeatures", "csv": "../examples/allFeatures.csv", "json": "allFeatures.json", "shexj": "allFeatures.shexj" },
+  { "name": "extraFeatures", "csv": "extraFeatures.csv", "json": "extraFeatures.json", "shexj": "extraFeatures.shexj" }
+]

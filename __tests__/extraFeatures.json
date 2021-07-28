@@ -26,6 +26,19 @@
         "propertyID": ":status"
       },
       {
+        "propertyID": ":tag",
+        "values": [
+          {
+            "type": "LiteralStem",
+            "stem": "user-"
+          },
+          {
+            "type": "LiteralStem",
+            "stem": "org-"
+          }
+        ]
+      },
+      {
         "propertyID": ":description",
         "mandatory": true,
         "repeatable": true,

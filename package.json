@@ -8,7 +8,7 @@
     "dctap-to-shexj": "bin/dctap-to-shexj-cli.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test0": "./bin/dctap-to-json-cli.js examples/allFeatures.csv && ./bin/dctap-to-shexj-cli.js examples/allFeatures.csv && jest"
   },
   "keywords": [],
