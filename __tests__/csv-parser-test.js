@@ -27,7 +27,7 @@ describe('csv-parser interface', () => {
 })
 
 async function parseDcTap (path, base) {
-    const dctap = new DcTap()
+    const dctap = new DcTap({dontResolveIris: true})
     return await new Promise((resolve, reject) => {
       Fs.createReadStream(path)
         .pipe(StripBom())

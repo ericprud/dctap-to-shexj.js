@@ -1,32 +1,32 @@
 [
   {
     "type": "Shape",
-    "shapeID": ":book",
+    "shapeID": "http://dctap.example/book",
     "tripleConstraints": [
       {
-        "propertyID": "dct:creator",
+        "propertyID": "http://purl.org/dc/terms/creator",
         "mandatory": true,
         "repeatable": true,
-        "valueShape": ":author"
+        "valueShape": "http://dctap.example/author"
       },
       {
-        "propertyID": "dct:date",
-        "datatype": "xsd:date"
+        "propertyID": "http://purl.org/dc/terms/date",
+        "datatype": "http://www.w3.org/2001/XMLSchema#date"
       },
       {
-        "propertyID": "dct:subject",
+        "propertyID": "http://purl.org/dc/terms/subject",
         "values": [
           {
             "type": "IriStem",
-            "stem": "https://id.loc.gov"
+            "stem": "https://id.loc.gov/"
           }
         ]
       },
       {
-        "propertyID": ":status"
+        "propertyID": "http://dctap.example/status"
       },
       {
-        "propertyID": ":tag",
+        "propertyID": "http://dctap.example/tag",
         "values": [
           {
             "type": "LiteralStem",
@@ -39,7 +39,7 @@
         ]
       },
       {
-        "propertyID": ":description",
+        "propertyID": "http://dctap.example/description",
         "mandatory": true,
         "repeatable": true,
         "values": [
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "propertyID": ":colors",
+        "propertyID": "http://dctap.example/colors",
         "values": [
           {
             "value": "blue"
@@ -72,10 +72,10 @@
   },
   {
     "type": "Shape",
-    "shapeID": ":author",
+    "shapeID": "http://dctap.example/author",
     "tripleConstraints": [
       {
-        "propertyID": ":status",
+        "propertyID": "http://dctap.example/status",
         "pattern": "confidential-*"
       }
     ]

@@ -3,45 +3,45 @@
   "shapes": [
     {
       "type": "Shape",
-      "id": ":book",
+      "id": "http://dctap.example/book",
       "expression": {
         "type": "EachOf",
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "dct:creator",
+            "predicate": "http://purl.org/dc/terms/creator",
             "min": 1,
             "max": -1,
-            "valueExpr": ":author"
+            "valueExpr": "http://dctap.example/author"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "dct:date",
+            "predicate": "http://purl.org/dc/terms/date",
             "valueExpr": {
               "type": "NodeConstraint",
-              "datatype": "xsd:date"
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
             }
           },
           {
             "type": "TripleConstraint",
-            "predicate": "dct:subject",
+            "predicate": "http://purl.org/dc/terms/subject",
             "valueExpr": {
               "type": "NodeConstraint",
               "values": [
                 {
                   "type": "IriStem",
-                  "stem": "https://id.loc.gov"
+                  "stem": "https://id.loc.gov/"
                 }
               ]
             }
           },
           {
             "type": "TripleConstraint",
-            "predicate": ":status"
+            "predicate": "http://dctap.example/status"
           },
           {
             "type": "TripleConstraint",
-            "predicate": ":tag",
+            "predicate": "http://dctap.example/tag",
             "valueExpr": {
               "type": "NodeConstraint",
               "values": [
@@ -58,7 +58,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": ":description",
+            "predicate": "http://dctap.example/description",
             "min": 1,
             "max": -1,
             "valueExpr": {
@@ -81,7 +81,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": ":colors",
+            "predicate": "http://dctap.example/colors",
             "valueExpr": {
               "type": "NodeConstraint",
               "values": [
@@ -99,10 +99,10 @@
     },
     {
       "type": "Shape",
-      "id": ":author",
+      "id": "http://dctap.example/author",
       "expression": {
         "type": "TripleConstraint",
-        "predicate": ":status",
+        "predicate": "http://dctap.example/status",
         "valueExpr": {
           "type": "NodeConstraint",
           "pattern": "confidential-*"

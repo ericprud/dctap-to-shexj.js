@@ -1,0 +1,4 @@
+[
+  { "name": "allFeatures-prefixes", "csv": "../examples/allFeatures-prefixes.csv", "json": "allFeatures-prefixes.json", "shexj": "allFeatures-prefixes.shexj" },
+  { "name": "extraFeatures-prefixes", "csv": "extraFeatures-prefixes.csv", "json": "extraFeatures-prefixes.json", "shexj": "extraFeatures-prefixes.shexj" }
+]

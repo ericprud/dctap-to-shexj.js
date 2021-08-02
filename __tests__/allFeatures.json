@@ -1,13 +1,13 @@
 [
   {
     "type": "Shape",
-    "shapeID": "http://a.example/test/dir/:book",
+    "shapeID": ":book",
     "tripleConstraints": [
       {
         "propertyID": "dct:creator",
         "mandatory": true,
         "repeatable": true,
-        "valueShape": "http://a.example/test/dir/:author"
+        "valueShape": ":author"
       },
       {
         "propertyID": "dct:date",
@@ -59,7 +59,7 @@
   },
   {
     "type": "Shape",
-    "shapeID": "http://a.example/test/dir/:author",
+    "shapeID": ":author",
     "tripleConstraints": [
       {
         "propertyID": ":status",

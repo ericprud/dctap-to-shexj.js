@@ -21,7 +21,7 @@ describe('negative tests', () => {
 })
 
 async function parseDcTap (path, base) {
-  const dctap = new DcTap()
+  const dctap = new DcTap({dontResolveIris: true})
   let text = Fs.readFileSync(path, 'utf-8')
   if (text.startsWith("\ufeff"))
     text = text.substr(1) // strip BOM

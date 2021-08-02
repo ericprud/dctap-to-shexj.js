@@ -3,7 +3,7 @@
   "shapes": [
     {
       "type": "Shape",
-      "id": "http://a.example/test/dir/:book",
+      "id": ":book",
       "expression": {
         "type": "EachOf",
         "expressions": [
@@ -12,7 +12,7 @@
             "predicate": "dct:creator",
             "min": 1,
             "max": -1,
-            "valueExpr": "http://a.example/test/dir/:author"
+            "valueExpr": ":author"
           },
           {
             "type": "TripleConstraint",
@@ -82,7 +82,7 @@
     },
     {
       "type": "Shape",
-      "id": "http://a.example/test/dir/:author",
+      "id": ":author",
       "expression": {
         "type": "TripleConstraint",
         "predicate": ":status",
